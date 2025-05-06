@@ -8,7 +8,11 @@ movies = {
 }
 
 # Preformatted showtimes for better readability
-showtime_info = '\n'.join([f"{movie}: {', '.join(times)}" for movie, times in movies.items()])
+# showtime_info = '\n'.join([f"{movie}: {', '.join(times)}" for movie, times in movies.items()])
+showtime_info = ""
+for movie, times in movies.items():
+    showtime_info += f"{movie}: {', '.join(times)}\n"
+
 
 # Define chatbot patterns and responses
 patterns = [
@@ -47,12 +51,12 @@ movie_bot = Chat(patterns, reflections)
 def book_tickets(movie, tickets, showtime):
     ticket_price = 100  # Fixed ticket price
     total = tickets * ticket_price
-    return (f"\n✅ Booking confirmed!\n🎬 Movie: {movie}\n🎟️ Tickets: {tickets}\n🕒 Showtime: {showtime}\n"
-            f"💵 Total Amount: Rs. {total}\nEnjoy your movie!")
+    return (f"\n Booking confirmed!\n Movie: {movie}\n Tickets: {tickets}\n Showtime: {showtime}\n"
+            f" Total Amount: Rs. {total}\nEnjoy your movie!")
 
 # Main interaction loop
 def main():
-    print("\n🎥 Welcome to MovieBot!")
+    print("\n Welcome to MovieBot!")
     print("Type 'book tickets' to start booking or 'bye' to exit.")
 
     while True:
@@ -68,7 +72,7 @@ def main():
                 continue
 
             try:
-                tickets = int(input("🎟️ How many tickets do you want? : "))
+                tickets = int(input("How many tickets do you want? : "))
                 if tickets <= 0:
                     print("Bot: Please enter a valid number of tickets.")
                     continue
@@ -77,7 +81,7 @@ def main():
                 continue
 
             print(f"Available showtimes for {movie}: {', '.join(movies[movie])}")
-            showtime = input("🕒 Choose a showtime from the above list: ").strip()
+            showtime = input(" Choose a showtime from the above list: ").strip()
             if showtime not in [s.split(': ')[1] for s in movies[movie]]:
                 print("Bot: That showtime isn't available for this movie.")
                 continue

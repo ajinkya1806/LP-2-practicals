@@ -1,0 +1,34 @@
+public static Double currencyConvert(Double amount, String fromCurrency, String toCurrency) {
+    // Example conversion rates
+    Double inrToUsd = 83.0;
+    Double inrToEur = 90.0;
+    Double usdToEur = 1.08;
+
+    // Input validation
+    if (amount == null || fromCurrency == null || toCurrency == null) {
+        throw new IllegalArgumentException('Amount and currencies cannot be null');
+    }
+
+    // Same currency case
+    if (fromCurrency.equalsIgnoreCase(toCurrency)) {
+        return amount;
+    }
+
+    // Supported conversions (case-insensitive)
+    if (fromCurrency.equalsIgnoreCase('INR') && toCurrency.equalsIgnoreCase('USD')) {
+        return amount / inrToUsd;
+    } else if (fromCurrency.equalsIgnoreCase('USD') && toCurrency.equalsIgnoreCase('INR')) {
+        return amount * inrToUsd;
+    } else if (fromCurrency.equalsIgnoreCase('INR') && toCurrency.equalsIgnoreCase('EUR')) {
+        return amount / inrToEur;
+    } else if (fromCurrency.equalsIgnoreCase('EUR') && toCurrency.equalsIgnoreCase('INR')) {
+        return amount * inrToEur;
+    } else if (fromCurrency.equalsIgnoreCase('USD') && toCurrency.equalsIgnoreCase('EUR')) {
+        return amount * usdToEur;
+    } else if (fromCurrency.equalsIgnoreCase('EUR') && toCurrency.equalsIgnoreCase('USD')) {
+        return amount / usdToEur;
+    }
+
+    // Unsupported conversion
+    throw new IllegalArgumentException('Unsupported currency conversion: ' + fromCurrency + ' to ' + toCurrency);
+}

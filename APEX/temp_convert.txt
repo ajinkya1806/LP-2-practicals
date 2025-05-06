@@ -1,0 +1,6 @@
+ 
+public class CelsToFar { 
+ public static Double celsiusToFahrenheit(Double celsius) { 
+        return (celsius * 9/5) + 32; 
+    } 
+}

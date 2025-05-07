@@ -1,57 +1,66 @@
-def ask_questions(question:str)->bool:
-    response=input(question+"(yes/no):").lower().strip()
-    return response.startswith("y")
+import time
+import random
 
-def diagnose_allergies()->bool:
-    return ask_questions("Are you having red, watery eyes?") or ask_questions("Do you have itching/swelling?")
+# Function to get user symptoms
+def get_symptoms():
+    print("\nPlease answer the following questions (yes/no):\n")
+    symptoms = []
+    questions = {
+        "fever": "Do you have a fever?",
+        "cough": "Are you experiencing a cough?",
+        "headache": "Do you have a headache?",
+        "sore_throat": "Do you have a sore throat?",
+        "runny_nose": "Do you have a runny nose?",
+        "fatigue": "Are you feeling tired?",
+    }
+    for symptom, question in questions.items():
+        ans = input(f"{question} ").strip().lower()
+        if ans == "yes":
+            symptoms.append(symptom)
+    return symptoms
 
-def diagnose_fever()->bool:
-    return ask_questions("Are you having temperature 37.5C?") or ask_questions("Are you having chills?")
+# Diagnosis using if-else
+def diagnose(symptoms):
+    s = set(symptoms)
+    if "fever" in s and "cough" in s and "fatigue" in s:
+        return "Flu", "Rest well, drink fluids, and consult a doctor if needed."
+    elif "cough" in s and "sore_throat" in s and "runny_nose" in s:
+        return "Common Cold", "Rest, stay warm, and drink plenty of fluids."
+    elif "fever" in s and "headache" in s and "fatigue" in s:
+        return "Dengue", "Consult a doctor immediately. Avoid painkillers like ibuprofen."
+    else:
+        return "Unknown", "Symptoms unclear. Please consult a healthcare professional."
 
-def diagnose_cold()->bool:
-    return ask_questions("Do you have runny nose?") or ask_questions("Are you sneezing frequently?")
+# Main function
+def main():
+    print("=" * 50)
+    print("\033[1;92m     Welcome to the Medical Expert System\033[0m")
+    print("=" * 50)
+    time.sleep(1)
 
-def diagnose_flu()->bool:
-    return ask_questions("Are you having temperature above 38C?") and ask_questions("Are you feeling tired?") and ask_questions("Do you have body aches?")
+    symptoms = get_symptoms()
 
-def diagnose_foodpoisoning()->bool:
-    return ask_questions("Do you have diarrhea?") and ask_questions("Are you vomiting?") and ask_questions("Do you feel nauseous?")
+    print("\nAnalyzing your symptoms...")
+    time.sleep(2)
 
-def diagnose_strepthroat()->bool:
-    return ask_questions("Do you have swollen tonsils?") and ask_questions("Do you have a sore throat?")
+    disease, advice = diagnose(symptoms)
 
-def diagnose_appendictis()->bool:
-    return ask_questions("Do you have severe stomach pain?") and ask_questions("Are you having loss of appetite?")
+    print("\n" + "-" * 50)
+    print(f"Diagnosis Result : {disease}")
+    print(f"Recommendation   : {advice}")
+    print("-" * 50)
 
-print("===Expert System for Diagnosing Ailments===")
+    # Health tip
+    tips = [
+        "Tip: Stay hydrated and drink clean water.",
+        "Tip: Wash your hands regularly.",
+        "Tip: Get enough sleep every night.",
+        "Tip: Avoid self-medication.",
+    ]
+    print(random.choice(tips))
+    print("=" * 50)
+    print("\033[1;91mNote: This system is not a substitute for professional medical advice.\033[0m")
+    print("=" * 50)
 
-diagnoses=[]
-
-if diagnose_allergies():
-    diagnoses.append("Allergies")
-
-if diagnose_fever():
-    diagnoses.append("Fever")
-
-if diagnose_cold():
-    diagnoses.append("Cold")
-
-if diagnose_flu():
-    diagnoses.append("Flu")
-
-if diagnose_strepthroat():
-    diagnoses.append("Strep Throat")
-
-if diagnose_foodpoisoning():
-    diagnoses.append("Food Poisoning")
-
-if diagnose_appendictis():
-    diagnoses.append("Appendictis")
-
-print("===Diagnoses Summary====")
-
-if diagnoses:
-    for illness in diagnoses:
-        print(f"You may have :{illness}")
-else:
-    print("No diagnoses found")
+if __name__ == "__main__":
+    main()
